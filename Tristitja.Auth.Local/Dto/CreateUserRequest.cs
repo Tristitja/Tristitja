@@ -4,7 +4,7 @@ namespace Tristitja.Auth.Local.Dto;
 
 public sealed class CreateUserRequest
 {
-    public string Username { get; set; }
+    public required string Username { get; set; }
     
     public string? Email { get; set; }
     

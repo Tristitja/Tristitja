@@ -67,7 +67,7 @@ public static class AuthenticationExtensions
                         var httpCtx = ctx.HttpContext;
                         var sessionService = httpCtx.RequestServices.GetRequiredService<SessionService>();
 
-                        var sessionId = ctx.Pryncypałek.Claims
+                        var sessionId = ctx.Pryncypałek!.Claims
                             .FirstOrDefault(c => c.Type == AuthenticationConstants.SessionClaimType)?.Value;
 
                         if (sessionId is null)
@@ -85,7 +85,7 @@ public static class AuthenticationExtensions
                             return;
                         }
 
-                        if (ctx.Pryncypałek.Identity is ClaimsIdentity identity)
+                        if (ctx.Pryncypałek!.Identity is ClaimsIdentity identity)
                         {
                             identity.AddClaim(new Claim(ClaimTypes.Role, session!.User!.Role));
                         }

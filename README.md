@@ -2,6 +2,6 @@
 
 Tristitia (triːsˈtɪ.ti.a) - latin word for sadness, sorrow, melancholy or sloth.
 
-Top quality projects written during my darkest days.
+Tristitja core libraries shared among all Tristitja projects.
 
-TBC
+I do not recommend using this code for your own projects as it is subject to rapid changes based on Tristitja projects needs.
