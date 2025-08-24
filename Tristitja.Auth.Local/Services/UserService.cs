@@ -14,18 +14,15 @@ internal sealed class UserService : IUserService
     private readonly IAuthLocalDbContext _dbContext;
     private readonly IPasswordHasher<User> _passwordHasher;
     private readonly ILogger<UserService> _logger;
-    private readonly AuthLocalOptions _authLocalOptions;
 
     public UserService(
         IAuthLocalDbContext dbContext,
         IPasswordHasher<User> passwordHasher,
-        IOptions<AuthLocalOptions> authLocalOptions,
         ILogger<UserService> logger)
     {
         _dbContext = dbContext;
         _passwordHasher = passwordHasher;
         _logger = logger;
-        _authLocalOptions = authLocalOptions.Value;
     }
 
     public async Task<User> CreateInitialUser(string username, string password)
@@ -46,7 +43,7 @@ internal sealed class UserService : IUserService
             Username = username.ToLowerInvariant(),
             DisplayName = username,
             IsInitial = true,
-            Role = _authLocalOptions.AdminRole
+            Role = AuthenticationConstants.AdminRole.Name
         };
 
         user.HashedPassword = _passwordHasher.HashPassword(user, password);
