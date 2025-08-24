@@ -13,27 +13,30 @@ public static class AuthenticationExtensions
 {
     extension (IServiceCollection services)
     {
-        public void AddTristitjaAuthLocal<TDbContext>()
+        public void AddTristitjaAuthLocal<TDbContext>(Action<AuthenticationLocalOptions>? configure = null)
             where TDbContext : IAuthLocalDbContext
         {
+            var configuration = new AuthenticationLocalOptions();
+            configure?.Invoke(configuration);
+            
             services.AddOptions<PasswordHasherOptions>()
                 .PostConfigure(options =>
                 {
-                    // If set to default or less than default then set it to OWASP recommendation
-                    // Security is important in Tristitja projects
-                    if (options.IterationCount <= 100_000)
-                    {
-                        // Current OWASP recommendation [Aug 2025]
-                        // https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
-                        options.IterationCount = 600_000;
-                    }
+                    options.IterationCount = configuration.Pbkdf2Iterations;
                 });
+
+            var roleStore = new RoleStore();
+            foreach (var role in configuration.Roles)
+            {
+                roleStore.Add(role.Name, role);
+            }
             
+            services.TryAddSingleton<IRoleStore>(roleStore);
             services.TryAddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.TryAddScoped<ISessionService, SessionService>();
             services.TryAddScoped<IUserService, UserService>();
             services.TryAddScoped<IAuthLocalDbContext>(s => s.GetRequiredService<TDbContext>());
-
+            
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
                 {

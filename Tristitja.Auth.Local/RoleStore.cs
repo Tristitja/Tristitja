@@ -1,3 +1,3 @@
 namespace Tristitja.Auth.Local;
 
-public class RoleStore : Dictionary<string, Role>, IRoleStore { }
+internal class RoleStore : Dictionary<string, Role>, IRoleStore { }
