@@ -1,9 +1,12 @@
 using System.Security.Claims;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Tristitja.Auth.Local.Exceptions;
 using Tristitja.Auth.Local.Model;
 using Tristitja.Auth.Local.Services;
 
@@ -36,6 +39,7 @@ public static class AuthenticationExtensions
             services.TryAddScoped<ISessionService, SessionService>();
             services.TryAddScoped<IUserService, UserService>();
             services.TryAddScoped<IAuthLocalDbContext>(s => s.GetRequiredService<TDbContext>());
+            services.AddValidatorsFromAssemblyContaining<LoginRequest>();
             
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
