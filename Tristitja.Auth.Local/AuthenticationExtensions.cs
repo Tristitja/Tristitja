@@ -46,20 +46,8 @@ public static class AuthenticationExtensions
                 {
                     o.Cookie.HttpOnly = true;
 
-                    // TODO: This event handler will need some review and most likely customization from customer side
-                    // Currently I am leaving it as is but I need to change that to better suit needs of Tristitja projects.
-                    o.Events.OnRedirectToLogin = ctx =>
-                    {
-                        if (ctx.Request.Path.StartsWithSegments("/api"))
-                        {
-                            ctx.Response.StatusCode = 401;
-                            return Task.CompletedTask;
-                        }
-
-                        ctx.RedirectUri = "/login";
-                        ctx.Response.StatusCode = 401;
-                        return Task.CompletedTask;
-                    };
+                    o.LoginPath = configuration.LoginPath;
+                    o.LogoutPath = configuration.LogoutPath;
                     
                     // Moja ulubiona methoda, walidujemy pryncypałka! XD
                     // For some lost souls looking through this code: type in Google "pryncypałki"
