@@ -9,7 +9,7 @@
 
     <PropertyGroup>
         <PackageId>Tristitja.Auth.Local</PackageId>
-        <Version>1.1.1</Version>
+        <Version>1.1.2</Version>
         <Authors>ScuroGuardiano</Authors>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/Tristitja/Tristitja</PackageProjectUrl>

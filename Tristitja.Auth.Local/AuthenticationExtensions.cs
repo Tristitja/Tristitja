@@ -72,7 +72,7 @@ public static class AuthenticationExtensions
                         }
 
                         var httpCtx = ctx.HttpContext;
-                        var sessionService = httpCtx.RequestServices.GetRequiredService<SessionService>();
+                        var sessionService = httpCtx.RequestServices.GetRequiredService<ISessionService>();
 
                         var sessionId = ctx.Pryncypałek!.Claims
                             .FirstOrDefault(c => c.Type == AuthenticationConstants.SessionClaimType)?.Value;
